@@ -1,6 +1,7 @@
 !*.dvc
 .nginx
 nbextension-scratchpad
+.mypy_cache
 .env
 docker_builds/cocpit.egg*
 cocpit.egg-info
