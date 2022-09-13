@@ -32,10 +32,6 @@ RUN pip3 install --upgrade pip
 COPY requirements_dev.txt requirements_dev.txt
 RUN pip3 install -r requirements_dev.txt
 
-# install cocpit package
-RUN git clone https://github.com/vprzybylo/cocpit.git 
-RUN chown -R vanessa:vanessa /data/data
-
 WORKDIR /code_server
 RUN wget https://github.com/cdr/code-server/releases/download/v4.7.0/code-server-4.7.0-linux-amd64.tar.gz  && \
 	tar -xzvf code-server-4.7.0-linux-amd64.tar.gz
