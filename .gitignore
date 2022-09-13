@@ -1,4 +1,5 @@
 !*.dvc
+cocpit
 .nginx
 nbextension-scratchpad
 .mypy_cache
