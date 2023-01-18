@@ -12,7 +12,9 @@ def nofold_training(model_name, batch_size, epochs):
     f.split_data()
     f.create_dataloaders()
     optimizer, model = cocpit.model_config.main(model_name)
-    cocpit.runner.main(f.dataloaders, optimizer, model, epochs, model_name, batch_size)
+    cocpit.runner.main(
+        f.dataloaders, optimizer, model, epochs, model_name, batch_size
+    )
 
 
 def kfold_training(batch_size: int, model_name: str, epochs: int) -> None:
@@ -27,23 +29,29 @@ def kfold_training(batch_size: int, model_name: str, epochs: int) -> None:
         epochs (int): number of iterations on dataset
     """
     skf = StratifiedKFold(n_splits=config.KFOLD, shuffle=True, random_state=42)
-    # datasets based on phase get called again in split_data
+    # datasets based on phase get called again i
     # needed here to initialize for skf.split
     data = cocpit.data_loaders.get_data("val")
+    print("entering this function!!")
     for kfold, (train_indices, val_indices) in enumerate(
         skf.split(data.imgs, data.targets)
     ):
         print("KFOLD iteration: ", kfold)
+        print((train_indices, val_indices))
 
         # apply appropriate transformations for training and validation sets
-        f = cocpit.fold_setup.FoldSetup(batch_size, kfold, train_indices, val_indices)
+        f = cocpit.fold_setup.FoldSetup(
+            batch_size, kfold, train_indices, val_indices
+        )
         f.split_data()
         f.update_save_names()
         f.create_dataloaders()
         model_setup(f, model_name, epochs)
 
 
-def model_setup(f: cocpit.fold_setup.FoldSetup, model_name: str, epochs: int) -> None:
+def model_setup(
+    f: cocpit.fold_setup.FoldSetup, model_name: str, epochs: int
+) -> None:
     """
     Create instances for model configurations and training/validation.
     Runs model.
@@ -63,8 +71,8 @@ def model_setup(f: cocpit.fold_setup.FoldSetup, model_name: str, epochs: int) ->
     c.set_criterion()
     c.to_device()
     cocpit.runner.main(
-        f,
-        c,
+        f,  # cocpit.fold_setup.FoldSetup,
+        c,  # cocpit.model_config.ModelConfig(m.model)
         model_name,
         epochs,
         kfold=0,

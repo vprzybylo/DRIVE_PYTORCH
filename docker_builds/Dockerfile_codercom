@@ -28,10 +28,8 @@ RUN groupadd -o -g 22083 csutter \
         && useradd -o -r -m -u 22083 -g 22083 csutter
 
 # install cocpit package
-RUN git clone https://github.com/vprzybylo/cocpit.git
+RUN git clone -b drive --single-branch https://github.com/vprzybylo/cocpit.git
 WORKDIR cocpit
-RUN git fetch
-RUN git checkout -b drive f42a7827e0da76689da83aea22c408278e4a3f97
 RUN pip3 install --upgrade pip
 COPY requirements_dev.txt requirements_dev.txt
 RUN pip3 install -r requirements_dev.txt
