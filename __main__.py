@@ -95,7 +95,6 @@ def train_models() -> None:
                     kfold_training(batch_size, model_name, epochs)
                 else:
                     f = cocpit.fold_setup.FoldSetup(batch_size, 0, [], [])
-                    f.nofold_indices()
                     f.split_data()
                     f.create_dataloaders()
                     model_setup(f, model_name, epochs)
